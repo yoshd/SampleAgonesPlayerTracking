@@ -1,0 +1,29 @@
+apiVersion: agones.dev/v1
+kind: Fleet
+metadata:
+  name: sample-pt
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: sample-pt
+      generateName: sample-pt-
+    spec:
+      container: sample-pt
+      ports:
+      - name: default
+        containerPort: 8000
+        protocol: TCP
+      health:
+        initialDelaySeconds: 30
+        periodSeconds: 60
+      template:
+        spec:
+          containers:
+          - name: sample-pt
+            image: sample-pt:latest
+            imagePullPolicy: Never # for local
+            resources:
+              limits:
+                memory: 32Mi
+                cpu: 50m
